@@ -10,3 +10,4 @@ def post(request):
 
 def hall_of_fame(request):
     return HttpResponse("hall-of-fame")
+   
