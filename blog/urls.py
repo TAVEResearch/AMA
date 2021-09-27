@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.index),
     path('post/', views.post),
     path('hall-of-fame/', views.hall_of_fame),
+]
 
 #test
