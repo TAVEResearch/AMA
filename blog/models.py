@@ -8,6 +8,9 @@ class Question(models.Model):
     side_1 = models.CharField(max_length=200)
     side_2 = models.CharField(max_length=200)
     create_date = models.DateTimeField()
+    like = models.IntegerField()
+    dislike = models.IntegerField()
+    conflict = models.IntegerField()
 
 class Comment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

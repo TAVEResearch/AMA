@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{question.subject}}</title>
+</head>
+<body>
+    질문 : {{question.subject}}
+    {% if question.vs_or_not %}
+    <ul>
+        <li>{{question.side_1}}</li>
+        <li>{{question.side_2}}</li>
+    </ul>
+    {% endif %}
+    <ol>
+        &lt&lt RESPONSE &gt&gt
+        <li>like : {{question.like}}</li>
+        <li>dislike : {{question.dislike}}</li>
+        <li>conflict : {{question.conflict}}</li>
+    </ol>
+    <ul>
+        &lt&lt COMMENTS &gt&gt
+        {% if comments %}
+        {% for comment in comments %}
+            <li>{{comment.comment}} / {{comment.create_date}}</li>
+        {% endfor %}
+        {% endif %}
+        {% if not comments %}
+        comment를 남겨주세요.
+        {% endif %}
+    </ul>
+</body>
+</html>
