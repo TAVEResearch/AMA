@@ -42,5 +42,26 @@ def question_create(request):
             return redirect('/blog/')
     else:
         form = QuestionForm()
-        context = {"form":form}
+        context = {"form":form, "create":1}
         return render(request, "question_create.html", context)
+
+def question_modify(request, question_id):
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = Question.objects.get(id=question_id)
+            question.subject = form.cleaned_data['subject']
+            question.vs_or_not = form.cleaned_data['vs_or_not']
+            question.side_1 = form.cleaned_data['side_1']
+            question.side_2 = form.cleaned_data['side_2']
+            question.save()
+            return redirect('/blog/post/'+str(question_id)+'/')
+    else:
+        form = QuestionForm()
+        context = {"form":form, "create":0}
+        return render(request, "question_create.html", context)
+            
+def question_delete(request, question_id):
+    question = Question.objects.get(id=question_id)
+    question.delete()
+    return redirect('/blog/')

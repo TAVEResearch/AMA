@@ -1,6 +1,11 @@
 <html>
     <body>
+        {% if create %}
         Question create
+        {% endif %}
+        {% if not create %}
+        Question modify
+        {% endif %}
         <form method="post" class="my-3">
             {% csrf_token %}
             {{form.as_p}}
