@@ -21,3 +21,8 @@ class Hall_of_Fame(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 
+
+class Top10(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    grade = models.IntegerField()
+    rank = models.FloatField()
