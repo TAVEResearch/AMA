@@ -20,6 +20,13 @@
     </ol>
     <ul>
         &lt&lt COMMENTS &gt&gt
+
+        <form action="/blog/post/comment/{{question.id}}/" method="post">
+        {% csrf_token %}
+        <textarea name="content" id="content" rows="15"></textarea>
+        <input type="submit" value="댓글등록">
+        </form>
+
         {% if comments %}
         {% for comment in comments %}
             <li>{{comment.comment}} / {{comment.create_date}}</li>

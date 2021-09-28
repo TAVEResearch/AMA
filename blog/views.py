@@ -1,23 +1,20 @@
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
-from .models import Question
 from django.utils import timezone
+
+from .models import Question, Comment
 from .forms import QuestionForm
-from django.shortcuts import redirect
+
 
 
 def index(request):
     return HttpResponse("안녕하세요 ama에 오신것을 환영합니다.")
 
 def post(request):
-    return HttpResponse("post")
-
-def hall_of_fame(request):
-    return HttpResponse("hall-of-fame")
-
-
+    question_list = Question.objects.order_by('create_date')
+    context = {'question_list': question_list}
+    return render(request, 'post.html', context)
 
 def question_display(request, question_id):
     try :
@@ -44,3 +41,18 @@ def question_create(request):
         form = QuestionForm()
         context = {"form":form}
         return render(request, "question_create.html", context)
+
+def comment_create(request, question_id):
+    question = Question.objects.get(id=question_id)
+    print(question)
+    comment = Comment(question=question, comment=request.POST.get('comment'), create_date=timezone.now())
+    print(comment)
+    comment.save()
+    return redirect('/blog/post/question_id/', question_id=question.id)
+
+def hall_of_fame(request):
+    questions = Question.objects.all()
+    for question in questions:
+        
+        print(question)
+    return HttpResponse("안녕하세요 ama에 오신것을 환영합니다.")
