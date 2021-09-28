@@ -12,6 +12,10 @@ class Question(models.Model):
     dislike = models.IntegerField()
     conflict = models.IntegerField()
 
+    def __str__(self):
+        return self.subject
+
+
 class Comment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     comment = models.TextField()
@@ -19,7 +23,6 @@ class Comment(models.Model):
 
 class Hall_of_Fame(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-
 
 
 class Top10(models.Model):
