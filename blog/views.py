@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 
 from .models import Question, Comment
-from .forms import QuestionForm
+from .forms import QuestionForm, CommentForm
 
 
 
@@ -43,16 +43,35 @@ def question_create(request):
         return render(request, "question_create.html", context)
 
 def comment_create(request, question_id):
-    question = Question.objects.get(id=question_id)
-    print(question)
-    comment = Comment(question=question, comment=request.POST.get('comment'), create_date=timezone.now())
-    print(comment)
-    comment.save()
-    return redirect('/blog/post/question_id/', question_id=question.id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.question_id = question_id
+            comment.create_date = timezone.now()
+            comment.save()
+            return redirect('/blog/post/')
+    else:
+        form = CommentForm()
+    context = {'form': form}
+    return render(request, 'comment_create.html', context)
+
+def comment_modify(request, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.create_date = timezone.now()  # 수정일시 저장
+            comment.save()
+            return redirect('/blog/post/', question_id=comment.question_id)
+    else:
+        form = CommentForm(instance=comment)
+    context = {'form': form}
+    return render(request, 'comment_create.html', context)
 
 def hall_of_fame(request):
     questions = Question.objects.all()
     for question in questions:
-        
         print(question)
     return HttpResponse("안녕하세요 ama에 오신것을 환영합니다.")
