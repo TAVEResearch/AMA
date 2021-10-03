@@ -32,9 +32,16 @@
             <button type="button" onclick="location.href='http://localhost:8000/blog/post/{{comment.id}}/comment-delete/'">삭제</button>
         {% endfor %}
         {% endif %}
-        {% if not comments %}
+        {% if not comments %}<br>
         comment를 남겨주세요.
         {% endif %}
     </ul>
+    <button type="button" class="btn">
+        <a href="/blog/post/{{question.id}}/question-modify">수정</a>
+    </button>
+
+    <button type="button" class="btn">
+        <a href="/blog/post/{{question.id}}/question-delete">삭제</a>
+    </button> 
 </body>
 </html>
