@@ -20,9 +20,16 @@
     </ol>
     <ul>
         &lt&lt COMMENTS &gt&gt
+
+        <br>
+        <button type="button" onclick="location.href='comment'">댓글등록</button>
+        <br>
+
         {% if comments %}
         {% for comment in comments %}
             <li>{{comment.comment}} / {{comment.create_date}}</li>
+            <button type="button" onclick="location.href='http://localhost:8000/blog/post/{{comment.id}}/comment-modify/'">수정</button>
+            <button type="button" onclick="location.href='http://localhost:8000/blog/post/{{comment.id}}/comment-delete/'">삭제</button>
         {% endfor %}
         {% endif %}
         {% if not comments %}<br>
@@ -35,11 +42,6 @@
 
     <button type="button" class="btn">
         <a href="/blog/post/{{question.id}}/question-delete">삭제</a>
-    </button> 
-
-    <!--이거는 질문 목록 보여주는 html에 추가해야 함-->
-    <button type="button" class="btn">
-        <a href="/blog/post/question">질문생성</a>
     </button> 
 </body>
 </html>

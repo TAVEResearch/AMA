@@ -1,4 +1,3 @@
-
 from django.db import models
 
 
@@ -22,5 +21,6 @@ class Comment(models.Model):
 
 class Hall_of_Fame(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    response = models.IntegerField()
 
 
