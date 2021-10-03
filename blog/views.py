@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 
-from .models import Question, Comment
+from .models import Question, Comment, Hall_of_Fame
 from .forms import QuestionForm, CommentForm
 
 
@@ -36,7 +36,7 @@ def question_create(request):
             question.dislike = 0
             question.conflict = 0
             question.save()
-            return redirect('/blog/')
+            return redirect('/blog/post/')
     else:
         form = QuestionForm()
         context = {"form":form}
@@ -50,7 +50,7 @@ def comment_create(request, question_id):
             comment.question_id = question_id
             comment.create_date = timezone.now()
             comment.save()
-            return redirect('/blog/post/')
+            return redirect('/blog/post/', question_id=comment.question_id)
     else:
         form = CommentForm()
     context = {'form': form}
@@ -70,8 +70,23 @@ def comment_modify(request, comment_id):
     context = {'form': form}
     return render(request, 'comment_create.html', context)
 
+def comment_delete(request, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+    return redirect('/blog/post/', question_id=comment.question_id)
+
 def hall_of_fame(request):
     questions = Question.objects.all()
+    Hall_of_Fame.objects.all().delete()
     for question in questions:
-        print(question)
-    return HttpResponse("안녕하세요 ama에 오신것을 환영합니다.")
+        like = question.like
+        dislike = question.dislike
+        conflict = question.conflict
+        res_sum = like+dislike+conflict
+
+        if res_sum >= 0:
+            Hall_of_Fame.objects.create(question=Question(id=question.id), response=res_sum)
+
+    hall_of_fame = Hall_of_Fame.objects.order_by('-response')
+    context = {"hall_of_fame": hall_of_fame}
+    return render(request, 'hall_of_fame.html', context)

@@ -7,6 +7,16 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>명예의 전당</h1>
+    {% if hall_of_fame %}
+        <ol>
+        {% for question in hall_of_fame %}
+            <li><a href="post/{{ question.id }}">{{ question.subject }}</a></li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p>명예의 전당에 오른 질문이 없습니다.</p>
+    {% endif %}
+    <h5>* 명예의 전당은 실시간으로 업데이트 됩니다.</h5>
 </body>
 </html>

@@ -29,6 +29,7 @@
         {% for comment in comments %}
             <li>{{comment.comment}} / {{comment.create_date}}</li>
             <button type="button" onclick="location.href='http://localhost:8000/blog/post/{{comment.id}}/comment-modify/'">수정</button>
+            <button type="button" onclick="location.href='http://localhost:8000/blog/post/{{comment.id}}/comment-delete/'">삭제</button>
         {% endfor %}
         {% endif %}
         {% if not comments %}
