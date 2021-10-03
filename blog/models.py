@@ -7,11 +7,12 @@ class Question(models.Model):
     vs_or_not = models.BooleanField(default=True)
     side_1 = models.CharField(max_length=200)
     side_2 = models.CharField(max_length=200)
-    create_date = models.DateTimeField()
-    like = models.IntegerField()
-    dislike = models.IntegerField()
-    conflict = models.IntegerField()
-
+    create_date = models.DateTimeField(auto_now=True)
+    like = models.IntegerField(default=0)
+    dislike = models.IntegerField(default=0)
+    conflict = models.IntegerField(default=0)
+    grade= models.IntegerField(default=0)
+    
     def __str__(self):
         return self.subject
 
@@ -26,6 +27,4 @@ class Hall_of_Fame(models.Model):
 
 
 class Top10(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    grade = models.IntegerField()
-    rank = models.FloatField()
+    tops=models.TextField(default='')

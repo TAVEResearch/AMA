@@ -6,57 +6,6 @@ from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
 
-# question_list = QuestionViewSet.as_view({
-#     'post': 'create',
-#     'get': 'list'
-# })
-
-# question_detail = QuestionViewSet.as_view({
-#     'get': 'retrieve',
-#     'put': 'update',
-#     'patch': 'partial_update',
-#     'delete': 'destroy'
-# })
-
-# question_list = QuestionViewSet.as_view({
-#     'post': 'create',
-#     'get': 'list'
-# })
-
-# question_detail = QuestionViewSet.as_view({
-#     'get': 'retrieve',
-#     'put': 'update',
-#     'patch': 'partial_update',
-#     'delete': 'destroy'
-# })
-
-
-# question_list = QuestionViewSet.as_view({
-#     'post': 'create',
-#     'get': 'list'
-# })
-
-# question_detail = QuestionViewSet.as_view({
-#     'get': 'retrieve',
-#     'put': 'update',
-#     'patch': 'partial_update',
-#     'delete': 'destroy'
-# })
-
-
-# question_list = QuestionViewSet.as_view({
-#     'post': 'create',
-#     'get': 'list'
-# })
-
-# question_detail = QuestionViewSet.as_view({
-#     'get': 'retrieve',
-#     'put': 'update',
-#     'patch': 'partial_update',
-#     'delete': 'destroy'
-# })
-
-
 
 urlpatterns = format_suffix_patterns([
     # question
@@ -70,6 +19,10 @@ urlpatterns = format_suffix_patterns([
         'patch': 'partial_update',
         'delete': 'destroy'
     })),
+
+    path('question/<int:pk>/like/',QuestionViewSet.like_up),
+    path('question/<int:pk>/dislike/',QuestionViewSet.dislike_up),
+    path('question/<int:pk>/conflict/',QuestionViewSet.conflict_up),
 
 
     # comment
@@ -110,25 +63,21 @@ urlpatterns = format_suffix_patterns([
     })),
 
 
- # comment
+ # top
     path('top10/', Top10ViewSet.as_view({
+        'post': 'create',
         'get': 'list'
     })),
-    path('top10/create/<int:pk>/', Top10ViewSet.as_view({
-        'post': 'create'
-    })),
 
-    path('top10/<int:pk>/', Top10ViewSet.as_view({
-        'get': 'retrieve',
-        'put': 'update',
-        'patch': 'partial_update'
-    })),
+    # path('top10/<int:pk>/', Top10ViewSet.as_view({
+    #     'get': 'retrieve',
+    #     'put': 'update',
+    #     'patch': 'partial_update',
+    #     'delete': 'destroy'
+        
+    # })),
+    path('top10/<int:pk>/', Top10ViewSet.top10check),
 
-    path('top10/delete/<int:pk>/', Top10ViewSet.as_view({
-        'delete': 'destroy'
-    })),
-
-
-
+    
 
 ])
