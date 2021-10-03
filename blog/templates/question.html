@@ -25,16 +25,21 @@
             <li>{{comment.comment}} / {{comment.create_date}}</li>
         {% endfor %}
         {% endif %}
-        {% if not comments %}
+        {% if not comments %}<br>
         comment를 남겨주세요.
         {% endif %}
     </ul>
     <button type="button" class="btn">
-        <a href="/blog/post/{{question.id}}/modify">수정</a>
+        <a href="/blog/post/{{question.id}}/question-modify">수정</a>
     </button>
 
     <button type="button" class="btn">
-        <a href="/blog/post/{{question.id}}/delete">삭제</a>
+        <a href="/blog/post/{{question.id}}/question-delete">삭제</a>
+    </button> 
+
+    <!--이거는 질문 목록 보여주는 html에 추가해야 함-->
+    <button type="button" class="btn">
+        <a href="/blog/post/question">질문생성</a>
     </button> 
 </body>
 </html>

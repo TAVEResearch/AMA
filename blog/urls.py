@@ -11,8 +11,8 @@ urlpatterns = [
     path('post/<int:question_id>/', views.question_display),
     path('post/question/', views.question_create),
 
-    path('post/<int:question_id>/modify', views.question_modify),
-    path('post/<int:question_id>/delete', views.question_delete),
+    path('post/<int:question_id>/question-modify', views.question_modify),
+    path('post/<int:question_id>/question-delete', views.question_delete),
 ]
 
 #test

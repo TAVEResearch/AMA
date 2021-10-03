@@ -1,14 +1,31 @@
 <html>
     <body>
+
         {% if create %}
+
         Question create
-        {% else %}
-        Question modify
-        {% endif %}
         <form method="post" class="my-3">
             {% csrf_token %}
             {{form.as_p}}
             <button type="submit" class="btn">저장</button>
         </form>
+
+        {% else %}
+
+        Question modify <br><br>
+        <form method="post" class="my-3">
+            {% csrf_token %}
+            Subject: <input name = "subject" type = "text" value = {{question.subject}}> <br><br>
+            Vs or not: {% if question.vs_or_not %}
+            <input name = "vs_or_not" type = "checkbox" checked> <br><br>
+            {% else %}
+            <input name = "vs_or_not" type = "checkbox"> <br><br>
+            {% endif %}
+            Side 1: <input name = "side_1" type = "text" value = {{question.side_1}}> <br><br>
+            Side 2: <input name = "side_2" type = "text" value = {{question.side_2}}> <br><br>
+            <button type="submit" class="btn">저장</button>
+        </form>
+
+        {% endif %}
     </body>
 </html>
