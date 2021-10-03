@@ -1,23 +1,20 @@
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
-from .models import Question
 from django.utils import timezone
-from .forms import QuestionForm
-from django.shortcuts import redirect
+
+from .models import Question, Comment, Hall_of_Fame
+from .forms import QuestionForm, CommentForm
+
 
 
 def index(request):
     return HttpResponse("안녕하세요 ama에 오신것을 환영합니다.")
 
 def post(request):
-    return HttpResponse("post")
-
-def hall_of_fame(request):
-    return HttpResponse("hall-of-fame")
-
-
+    question_list = Question.objects.order_by('create_date')
+    context = {'question_list': question_list}
+    return render(request, 'post.html', context)
 
 def question_display(request, question_id):
     try :
@@ -39,8 +36,63 @@ def question_create(request):
             question.dislike = 0
             question.conflict = 0
             question.save()
-            return redirect('/blog/')
+            return redirect('/blog/post/')
     else:
         form = QuestionForm()
         context = {"form":form}
         return render(request, "question_create.html", context)
+
+def comment_create(request, question_id):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.question_id = question_id
+            comment.create_date = timezone.now()
+            comment.save()
+            return redirect('/blog/post/', question_id=comment.question_id)
+    else:
+        form = CommentForm()
+    context = {'form': form}
+    return render(request, 'comment_create.html', context)
+
+def comment_modify(request, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.create_date = timezone.now()  # 수정일시 저장
+            comment.save()
+            return redirect('/blog/post/', question_id=comment.question_id)
+    else:
+        form = CommentForm(instance=comment)
+    context = {'form': form}
+    return render(request, 'comment_create.html', context)
+
+def comment_delete(request, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+    return redirect('/blog/post/', question_id=comment.question_id)
+
+def hall_of_fame(request):
+    questions = Question.objects.all()
+    Hall_of_Fame.objects.all().delete()
+    for question in questions:
+        like = question.like
+        dislike = question.dislike
+        conflict = question.conflict
+        res_sum = like + dislike + conflict
+
+        if res_sum >= 0:
+            Hall_of_Fame.objects.create(question=Question(id=question.id), response=res_sum)
+
+    hall_of_fame = Hall_of_Fame.objects.order_by('-response')
+    value_list = []
+
+    for value in hall_of_fame:
+        question = Question.objects.get(id=value.question_id)
+        value_list.append(question)
+
+    context = {"hall_of_fame": value_list}
+    return render(request, 'hall_of_fame.html', context)

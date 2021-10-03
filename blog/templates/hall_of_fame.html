@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>명예의 전당</h1>
+    {% if hall_of_fame %}
+        <ol>
+        {% for value in hall_of_fame %}
+            <li><a href="http://localhost:8000/blog/post/{{ value.id }}">{{ value.subject }}</a></li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p>명예의 전당에 오른 질문이 없습니다.</p>
+    {% endif %}
+    <h5>* 명예의 전당은 실시간으로 업데이트 됩니다.</h5>
+</body>
+</html>
