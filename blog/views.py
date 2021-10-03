@@ -82,11 +82,17 @@ def hall_of_fame(request):
         like = question.like
         dislike = question.dislike
         conflict = question.conflict
-        res_sum = like+dislike+conflict
+        res_sum = like + dislike + conflict
 
         if res_sum >= 0:
             Hall_of_Fame.objects.create(question=Question(id=question.id), response=res_sum)
 
     hall_of_fame = Hall_of_Fame.objects.order_by('-response')
-    context = {"hall_of_fame": hall_of_fame}
+    value_list = []
+
+    for value in hall_of_fame:
+        question = Question.objects.get(id=value.question_id)
+        value_list.append(question)
+
+    context = {"hall_of_fame": value_list}
     return render(request, 'hall_of_fame.html', context)

@@ -10,8 +10,8 @@
     <h1>명예의 전당</h1>
     {% if hall_of_fame %}
         <ol>
-        {% for question in hall_of_fame %}
-            <li><a href="post/{{ question.id }}">{{ question.subject }}</a></li>
+        {% for value in hall_of_fame %}
+            <li><a href="http://localhost:8000/blog/post/{{ value.id }}">{{ value.subject }}</a></li>
         {% endfor %}
         </ol>
     {% else %}
